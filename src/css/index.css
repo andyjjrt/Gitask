@@ -1,3 +1,52 @@
 @tailwind base;
+
+@layer base {
+  :root {
+    --doc-height: 100%;
+  }
+
+  html,
+  body {
+    height: 100vh;
+    height: var(--doc-height);
+    overflow: hidden;
+  }
+
+  input {
+    -webkit-appearance: none;
+  }
+
+  .h-real {
+    height: var(--doc-height);
+  }
+
+  #root {
+    @apply h-full;
+  }
+
+  /* Loader */
+  .loader {
+    width: 48px;
+    height: 48px;
+    border: 5px solid hsl(var(--p));
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+  }
+
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+
 @tailwind components;
 @tailwind utilities;
