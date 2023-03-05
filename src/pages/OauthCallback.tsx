@@ -1,24 +1,28 @@
 // Hooks
+import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 // Components
 // Styles
 // Utils
+import ajax from "../utils/api";
 
-// Props type defination
-interface Props{}
+const OauthCallback = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
 
-// Default props
-const defaultProps: Props = {};
+  useEffect(() => {
+    ajax("/login/oauth/access_token", "post", "", {
+      params: {
+        client_id: import.meta.env.VITE_GITHUB_OAUTH_CLIENT_ID,
+        client_secret: import.meta.env.VITE_GITHUB_OAUTH_CLIENT_SECRET,
+        code: searchParams.get("code"),
+      },
+      headers: {
+        Accept: "application/json",
+      },
+    });
+  }, []);
 
-/**
- * Component description.
- *
- * @param test- Test description
- * 
- */
-const SampleComponent = ({}: Props) => {
-  return (<p>hello world</p>)
+  return <p>hello world</p>;
 };
 
-SampleComponent.defaultProps = defaultProps;
-
-export default SampleComponent;
+export default OauthCallback;

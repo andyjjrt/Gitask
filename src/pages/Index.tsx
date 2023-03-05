@@ -1,24 +1,11 @@
 // Hooks
 // Components
+import GithubLoginButton from "../components/Auth/GithubLoginButton";
 // Styles
 // Utils
 
-// Props type defination
-interface Props{}
-
-// Default props
-const defaultProps: Props = {};
-
-/**
- * Component description.
- *
- * @param test- Test description
- * 
- */
-const SampleComponent = ({}: Props) => {
-  return (<p>hello world</p>)
+const Index = () => {
+  return <GithubLoginButton />;
 };
 
-SampleComponent.defaultProps = defaultProps;
-
-export default SampleComponent;
+export default Index;

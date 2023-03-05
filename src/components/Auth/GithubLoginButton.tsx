@@ -15,11 +15,11 @@ const defaultProps: Props = {};
 const GithubLoginButton = ({}: Props) => {
   const url = `https://github.com/login/oauth/authorize?client_id=${
     import.meta.env.VITE_GITHUB_OAUTH_CLIENT_ID
-  }&redirect_uri=${import.meta.env.VITE_GITHUUB_OAUTH_REDIRECT_URI}&scope=repo`;
+  }&redirect_uri=${import.meta.env.VITE_GITHUUB_OAUTH_REDIRECT_URI}&scope=repo&state=123`;
 
   return (
     <a role="button" href={url}>
-      hello world
+      Github Login
     </a>
   );
 };

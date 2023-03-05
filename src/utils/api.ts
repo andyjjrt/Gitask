@@ -1,8 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
 
-axios.defaults.baseURL = "";
-axios.defaults.headers.post["Content-Type"] = "application/json";
-
 /*
   Function Usage Sample:
   ajax("/api/user/login", "post", {
@@ -21,7 +18,7 @@ export const ajax = async (
   options?: AxiosRequestConfig<any>
 ) => {
   if (options !== undefined) {
-    var { params = {}, data = {} } = options;
+    var { params = {}, data } = options;
   } else {
     params = data = null;
   }
@@ -40,5 +37,17 @@ export const ajax = async (
       throw err;
     });
 };
+
+export const fetchApi = (
+  url: string,
+  method: string,
+  options?: AxiosRequestConfig<any>
+) =>
+  ajax(url, method, "https://api.github.com", {
+    ...options,
+    headers: {
+      authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
 
 export default ajax;
