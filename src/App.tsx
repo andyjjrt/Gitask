@@ -1,13 +1,16 @@
-import { useState } from 'react'
+// Hooks
+// Components
+import GithubLoginButton from "./components/Auth/GithubLoginButton";
+// Styles
+// Utils
+import RouterView from "./router";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
   return (
-    <div className=" bg-black">
-      123
-    </div>
-  )
-}
+    <>
+      <RouterView />
+    </>
+  );
+};
 
-export default App
+export default App;
