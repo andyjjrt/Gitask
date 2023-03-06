@@ -1,19 +1,21 @@
 import { APIResponse } from "../objects/APIResponse";
-import { eventHandler, createRouter, getQuery, getHeader } from "h3";
+import { eventHandler, createRouter, getQuery, getHeader, readBody } from "h3";
 import fetch from "node-fetch";
 import * as dotenv from "dotenv";
-import type { Task } from "../type/task";
 dotenv.config();
+
+import type { Task } from "../type/task";
+import { OPEN_LABEL, IN_PROGRESS_LABEL, DONE_LABEL } from "../utils/constants";
 
 const router = createRouter();
 
 router.get(
   "/api/task",
   eventHandler(async (event) => {
-    const { state = "open", page = 1 } = getQuery(event);
+    const { state = "open", page = 1, param = "" } = getQuery(event);
     const token = getHeader(event, "authorization") || "";
     const response = await fetch(
-      `https://api.github.com/repos/${process.env.TARGET_REPO_OWNER}/${process.env.TARGET_REPO_NAME}/issues?state=${state}&per_page=10&page=${page}`,
+      `https://api.github.com/search/issues?q=${param}%20repo:${process.env.TARGET_REPO_OWNER}/${process.env.TARGET_REPO_NAME}%20state:${state}%20is:issue&per_page=10&page=${page}`,
       {
         headers: {
           accept: "application/vnd.github+json",
@@ -22,10 +24,13 @@ router.get(
         },
       }
     );
-    const data = await response.json() as Task[];
-    return new APIResponse(
-      response.status === 200,
-      data.map((task) => ({
+    const data = (await response.json()) as {
+      total_count: number;
+      items: Task[];
+    };
+    return new APIResponse(response.status === 200, {
+      total: data.total_count,
+      items: data.items.map((task) => ({
         id: task.id,
         node_id: task.node_id,
         number: task.number,
@@ -33,14 +38,21 @@ router.get(
         title: task.title,
         body: task.body,
         reactions: task.reactions,
-      }))
-    ).json();
+      })),
+    }).json();
   })
 );
 
 router.post(
   "/api/task/add",
   eventHandler(async (event) => {
+    const body = await readBody(event);
+    const {
+      title,
+      description,
+    }: { title: string | undefined; description: string | undefined } = body;
+    if (!title || title.length == 0)
+      return new APIResponse(false, "title is required").json();
     const token = getHeader(event, "authorization") || "";
     const response = await fetch(
       `https://api.github.com/repos/${process.env.TARGET_REPO_OWNER}/${process.env.TARGET_REPO_NAME}/issues`,
@@ -52,8 +64,9 @@ router.post(
           "X-GitHub-Api-Version": "2022-11-28",
         },
         body: JSON.stringify({
-          title: "Testing api",
-          body: "Testing api",
+          title: title,
+          body: description,
+          labels: [OPEN_LABEL],
         }),
       }
     );
