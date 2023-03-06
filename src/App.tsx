@@ -1,9 +1,8 @@
 // Hooks
 // Components
-import GithubLoginButton from "./components/Auth/GithubLoginButton";
+import RouterView from "./router";
 // Styles
 // Utils
-import RouterView from "./router";
 
 const App = () => {
   return (

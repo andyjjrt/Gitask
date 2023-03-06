@@ -43,10 +43,10 @@ export const fetchApi = (
   method: string,
   options?: AxiosRequestConfig<any>
 ) =>
-  ajax(url, method, "https://api.github.com", {
+  ajax(url, method, "/api", {
     ...options,
     headers: {
-      authorization: `Bearer ${localStorage.getItem("token")}`,
+      authorization: `Bearer ${localStorage.getItem("authToken")}`,
     },
   });
 

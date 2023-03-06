@@ -6,13 +6,8 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      "/login": {
-        target: "https://github.com",
-        changeOrigin: true,
-        configure: (proxy, options) => {
-          console.log(proxy, options)
-        },
-      },
+      "^/oauth/.*": "http://localhost:3001",
+      "^/api/.*": "http://localhost:3001"
     },
   },
 });

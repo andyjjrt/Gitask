@@ -1,28 +1,34 @@
 // Hooks
 import { useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 // Components
 // Styles
 // Utils
 import ajax from "../utils/api";
 
 const OauthCallback = () => {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    ajax("/login/oauth/access_token", "post", "", {
-      params: {
-        client_id: import.meta.env.VITE_GITHUB_OAUTH_CLIENT_ID,
-        client_secret: import.meta.env.VITE_GITHUB_OAUTH_CLIENT_SECRET,
+    ajax("/oauth/code", "post", "", {
+      data: {
         code: searchParams.get("code"),
       },
-      headers: {
-        Accept: "application/json",
-      },
-    });
+    })
+      .then((res) => {
+        const { success, data } = res.data;
+        if (!success) throw new Error(data.message);
+        localStorage.setItem("authToken", data.access_token);
+        navigate("/")
+      })
+      .catch((error: any) => {
+        console.error(error);
+        navigate("/login");
+      });
   }, []);
 
-  return <p>hello world</p>;
+  return <p>oauthCallback</p>;
 };
 
 export default OauthCallback;
