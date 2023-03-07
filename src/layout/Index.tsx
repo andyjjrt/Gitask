@@ -41,7 +41,15 @@ const DefaultLayout = ({ children }: Props) => {
     fetchUser().then(() => setLoading(false));
   }, []);
 
-  return <>{loading ? "" : children}</>;
+  return (
+    <div className="h-full w-full flex flex-col">
+      <div className="flex justify-between items-center p-2 h-16 bg-slate-500 text-white shrink-0">
+        <h2 className="text-2xl">Gitask</h2>
+        <img />
+      </div>
+      <div className="p-5 grow">{loading ? "" : children}</div>
+    </div>
+  );
 };
 
 DefaultLayout.defaultProps = defaultProps;

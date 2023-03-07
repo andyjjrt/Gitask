@@ -70,8 +70,16 @@ router.post(
         }),
       }
     );
-    const data = await response.json();
-    return new APIResponse(response.status === 200, data).json();
+    const data = await response.json() as Task;
+    return new APIResponse(response.status === 200, {
+      id: data.id,
+      node_id: data.node_id,
+      number: data.number,
+      state: data.state,
+      title: data.title,
+      body: data.body,
+      reactions: data.reactions,
+    }).json();
   })
 );
 

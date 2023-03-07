@@ -8,14 +8,7 @@ const routes = () => {
   return (
     <Routes>
       <Route path="/oauthCallback" element={<OauthCallbackPage />}></Route>
-      <Route
-        path="/login"
-        element={
-          <DefaultLayout>
-            <LoginPage />
-          </DefaultLayout>
-        }
-      ></Route>
+      <Route path="/login" element={<LoginPage />}></Route>
       <Route
         path="/"
         element={

@@ -47,6 +47,11 @@
   }
 }
 
-
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .btn {
+    @apply inline-block rounded bg-blue-400 px-4 pt-1.5 pb-1 uppercase leading-normal text-white transition duration-150 ease-in-out shadow-md;
+  }
+}
