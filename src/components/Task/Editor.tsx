@@ -19,7 +19,7 @@ interface Props {
 // Default props
 const defaultProps: Props = {
   open: false,
-  handleClose: () => {},
+  handleClose: () => { },
   type: "create",
   title: "",
   description: null,
@@ -57,7 +57,8 @@ const TaskEditor = ({ open, handleClose, type, title, description }: Props) => {
       },
     });
     const { data, success } = response.data;
-    handleClose();
+    setTimeout(() => handleClose(), 1000)
+    
   };
 
   const modalTitle = useMemo(() => {
@@ -74,7 +75,7 @@ const TaskEditor = ({ open, handleClose, type, title, description }: Props) => {
   const apiEndpoint = useMemo(() => {
     switch (type) {
       case "create":
-        return "/task/add";
+        return "/task/open";
       case "edit":
         return "/task/add";
       default:
@@ -100,12 +101,12 @@ const TaskEditor = ({ open, handleClose, type, title, description }: Props) => {
         "outline-none",
         "w-[90vw]",
         "max-w-lg",
-        "min-h-[40vh]"
+        "h-[40vh]"
       )}
       onRequestClose={loading ? () => {} : handleClose}
       appElement={document.getElementById("root") || undefined}
     >
-      <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+      <form onSubmit={handleSubmit} className="h-full flex flex-col gap-2">
         <h2 className="text-2xl">{modalTitle}</h2>
         <div className="flex flex-col gap-2 grow">
           <div className="flex flex-col gap-1">

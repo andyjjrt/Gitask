@@ -17,4 +17,9 @@ interface Task {
     eyes: number;
     rocket: number;
   };
+  labels: {
+    id: number;
+    nodeid: string;
+    name: string;
+  }[];
 }

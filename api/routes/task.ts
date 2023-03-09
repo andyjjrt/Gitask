@@ -38,13 +38,18 @@ router.get(
         title: task.title,
         body: task.body,
         reactions: task.reactions,
+        labels: task.labels.map(label => ({
+          id: label.id,
+          nodeid: label.nodeid,
+          name: label.name
+        })),
       })),
     }).json();
   })
 );
 
 router.post(
-  "/api/task/add",
+  "/api/task/open",
   eventHandler(async (event) => {
     const body = await readBody(event);
     const {
@@ -70,7 +75,7 @@ router.post(
         }),
       }
     );
-    const data = await response.json() as Task;
+    const data = (await response.json()) as Task;
     return new APIResponse(response.status === 200, {
       id: data.id,
       node_id: data.node_id,
@@ -79,6 +84,11 @@ router.post(
       title: data.title,
       body: data.body,
       reactions: data.reactions,
+      labels: data.labels.map(label => ({
+        id: label.id,
+        nodeid: label.nodeid,
+        name: label.name
+      })),
     }).json();
   })
 );

@@ -47,7 +47,7 @@ const DefaultLayout = ({ children }: Props) => {
         <h2 className="text-2xl">Gitask</h2>
         <img />
       </div>
-      <div className="p-5 grow">{loading ? "" : children}</div>
+      <div className="p-5 grow overflow-auto">{loading ? "" : children}</div>
     </div>
   );
 };
